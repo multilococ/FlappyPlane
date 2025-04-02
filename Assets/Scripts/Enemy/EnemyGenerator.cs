@@ -20,7 +20,7 @@ public class EnemyGenerator : MonoBehaviour
 
     private IEnumerator Generate() 
     {
-        while (true)
+        while (enabled)
         {
             yield return _waitForSeconds;
 
