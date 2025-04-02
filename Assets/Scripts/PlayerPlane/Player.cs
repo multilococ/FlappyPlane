@@ -41,14 +41,6 @@ public class Player : MonoBehaviour,IDamageable
         _mover.Fall();
     }
 
-    private void ProcessCollision(IInteractable interactable) 
-    {
-        if (interactable is OutOfBoundsZone || interactable is Enemy)
-        {
-            GameIsOver?.Invoke();
-        }
-    }
-
     public void Reset()
     {
         transform.position = _startPosition;
@@ -56,8 +48,16 @@ public class Player : MonoBehaviour,IDamageable
         transform.rotation = _startRotation;
     }
 
-    public void GetDamage()
+    public void TakeDamage()
     {
         GameIsOver?.Invoke();
+    }
+
+    private void ProcessCollision(IInteractable interactable) 
+    {
+        if (interactable is OutOfBoundsZone || interactable is Enemy)
+        {
+            GameIsOver?.Invoke();
+        }
     }
 }

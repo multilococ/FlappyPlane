@@ -14,18 +14,6 @@ public class Enemy : MonoBehaviour,IInteractable,IDamageable
         StartCoroutine(DelayFromShoot());
     }
 
-    private IEnumerator DelayFromShoot() 
-    {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(_shootDelay);
-     
-        while (true)
-        {
-            yield return waitForSeconds ;
-
-            _weapon.Shoot();
-        }
-    }
-
     public void Init(Transform container) 
     {
         _weapon.SetContainer(container);
@@ -36,8 +24,20 @@ public class Enemy : MonoBehaviour,IInteractable,IDamageable
         Died?.Invoke(this);
     }
 
-    public void GetDamage()
+    public void TakeDamage()
     {
         Die();
+    }
+
+    private IEnumerator DelayFromShoot() 
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(_shootDelay);
+     
+        while (true)
+        {
+            yield return waitForSeconds ;
+
+            _weapon.Shoot();
+        }
     }
 }

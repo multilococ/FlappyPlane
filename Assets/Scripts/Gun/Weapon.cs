@@ -14,6 +14,21 @@ public class Weapon : MonoBehaviour
     {
         FillMagazine();
     }
+ 
+    public void Shoot()
+    {
+        if (_magazine.Count > 0)
+        {
+            Bullet bullet = _magazine.Dequeue();
+            bullet.Init(transform.forward, transform.position);
+            bullet.Disappeared += ReturnBullet;
+        }
+    }
+
+    public void SetContainer(Transform container) 
+    {
+        _container = container;
+    }
 
     private void FillMagazine()
     {
@@ -30,20 +45,5 @@ public class Weapon : MonoBehaviour
     {
         bullet.Disappeared -= ReturnBullet;
         _magazine.Enqueue(bullet);
-    }
-
-    public void Shoot()
-    {
-        if (_magazine.Count > 0)
-        {
-            Bullet bullet = _magazine.Dequeue();
-            bullet.Init(transform.forward, transform.position);
-            bullet.Disappeared += ReturnBullet;
-        }
-    }
-
-    public void SetContainer(Transform container) 
-    {
-        _container = container;
     }
 }

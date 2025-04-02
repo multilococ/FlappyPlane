@@ -25,11 +25,26 @@ public class Bullet : MonoBehaviour, IInteractable
         Fly();
     }
 
+    public void Hide()
+    {
+        Disappeared?.Invoke(this);
+        gameObject.SetActive(false);
+    }
+
+    public void Init(Vector3 direction, Vector3 startPosition)
+    {
+        gameObject.SetActive(true);
+        transform.position = startPosition;
+        transform.rotation = Quaternion.identity;
+        _direction = direction;
+        StartCoroutine(BulletExitLifeTime());
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.TryGetComponent(out IDamageable damageable))
         {
-            damageable.GetDamage();
+            damageable.TakeDamage();
         }
 
         Hide();
@@ -44,20 +59,5 @@ public class Bullet : MonoBehaviour, IInteractable
     {
         yield return _waitForSeconds;
         Hide();
-    }
-
-    public void Hide()
-    {
-        Disappeared?.Invoke(this);
-        gameObject.SetActive(false);
-    }
-
-    public void Init(Vector3 direction, Vector3 startPosition)
-    {
-        gameObject.SetActive(true);
-        transform.position = startPosition;
-        transform.rotation = Quaternion.identity;
-        _direction = direction;
-        StartCoroutine(BulletExitLifeTime());
     }
 }

@@ -12,23 +12,7 @@ public class EnemyPool : MonoBehaviour
     {
         _pool = new Queue<Enemy>();
     }
-
-    public Enemy GetPrefab()
-    {
-        Enemy enemy;
-
-        if (_pool.Count == 0)
-            enemy = Instantiate(_prefab);
-        else
-            enemy = _pool.Dequeue();
-
-        enemy.gameObject.SetActive(true);
-        enemy.Died += ReturnObjectToPool;
-        enemy.transform.parent = _container;
-
-        return enemy;
-    }
-
+  
     public void ReturnObjectToPool(Enemy enemy)
     {
         enemy.Died -= ReturnObjectToPool;
@@ -45,5 +29,21 @@ public class EnemyPool : MonoBehaviour
             for (int i = 0; i < _childrenCount; i++)
                 _container.GetChild(i).GetComponent<Enemy>().Die();
         }
+    }
+
+    public Enemy GetPrefab()
+    {
+        Enemy enemy;
+
+        if (_pool.Count == 0)
+            enemy = Instantiate(_prefab);
+        else
+            enemy = _pool.Dequeue();
+
+        enemy.gameObject.SetActive(true);
+        enemy.Died += ReturnObjectToPool;
+        enemy.transform.parent = _container;
+
+        return enemy;
     }
 }

@@ -18,27 +18,6 @@ public class EnemyGenerator : MonoBehaviour
         _waitForSeconds = new WaitForSeconds(_delay);
     }
 
-    private IEnumerator Generate() 
-    {
-        while (enabled)
-        {
-            yield return _waitForSeconds;
-
-            Spawn();
-        }
-    }
-
-    private void Spawn() 
-    {
-        float randomYposition = Random.Range(_lowerBound, _upperBound);
-        Vector3 spawnPosition = new Vector3(transform.position.x,randomYposition,transform.position.z);
-     
-        Enemy enemy = _enemyPool.GetPrefab();
-
-        enemy.Init(_bulletContainer);
-        enemy.transform.position = spawnPosition;
-    }
-
     public void StartGenerating() 
     {
         _coroutine = StartCoroutine(Generate());    
@@ -48,5 +27,26 @@ public class EnemyGenerator : MonoBehaviour
     {
         _enemyPool.Reset();
         StopCoroutine(_coroutine);
+    }
+
+    private IEnumerator Generate() 
+    {
+        while (enabled)
+        {
+            yield return _waitForSeconds;
+
+            Spawn();
+        }
+    }
+   
+    private void Spawn() 
+    {
+        float randomYposition = Random.Range(_lowerBound, _upperBound);
+        Vector3 spawnPosition = new Vector3(transform.position.x,randomYposition,transform.position.z);
+     
+        Enemy enemy = _enemyPool.GetPrefab();
+
+        enemy.Init(_bulletContainer);
+        enemy.transform.position = spawnPosition;
     }
 }
