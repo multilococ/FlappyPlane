@@ -7,8 +7,11 @@ public class BulletReseter : MonoBehaviour
     public void Reset()
     {
         for (int i = 0; i < _container.childCount; i++)
-        { 
-            _container.GetChild(i).gameObject.SetActive(false);
+        {
+            if (_container.GetChild(i).TryGetComponent(out Bullet bullet)) 
+            {
+                bullet.Hide();
+            }
         }
     }
 }

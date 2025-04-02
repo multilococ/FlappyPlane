@@ -32,8 +32,7 @@ public class Bullet : MonoBehaviour, IInteractable
             damageable.GetDamage();
         }
 
-        Disappeared?.Invoke(this);
-        gameObject.SetActive(false);
+        Hide();
     }
 
     private void Fly()
@@ -44,7 +43,11 @@ public class Bullet : MonoBehaviour, IInteractable
     private IEnumerator BulletExitLifeTime()
     {
         yield return _waitForSeconds;
+        Hide();
+    }
 
+    public void Hide()
+    {
         Disappeared?.Invoke(this);
         gameObject.SetActive(false);
     }
